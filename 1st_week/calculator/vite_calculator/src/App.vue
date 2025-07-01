@@ -375,6 +375,8 @@ result-form {
     grid-column: span 3;
 }
 
+
+/* 기록과 관련된 css 추가 */
 .calculator form .result {
     grid-column: span 2;
 }
