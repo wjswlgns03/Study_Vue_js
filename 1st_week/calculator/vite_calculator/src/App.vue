@@ -266,7 +266,7 @@ export default defineComponent({
           state.operator = op;
           return;
         }
-		// 현재 입력값이 있으면 수식에 추
+		// 현재 입력값이 있으면 수식에 추가
         if (state.cur) {
           state.expression += `${state.expression ? ' ' : ''}${state.cur} ${op}`;
           state.cur = '';
