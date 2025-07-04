@@ -7,6 +7,12 @@
 
       <!-- 한국어, 영어, ... 문자를 입력할 때 v-bind:value와 v-on:input를 직접 연결 안하면 연결 지연, 중복 입력 문제가 발생할 수 있다고 함 -->
       <input type="text" v-model="displayOutput" readonly />
+      
+      <!-- 키보드 입력 처리를 해야될지 고민되는 아래 3가지... -->
+      <input type="button" class="sq" value="x²" @click="operation('sq')" />      <!-- 추가 완료 -->
+      <input type="button" class="sqrt" value="√" @click="operation('sqrt')" />   <!-- 추가 중... -->
+      <input type="button" class="log" value="log" @click="operation('log')" />   <!-- 추가 중... -->
+      
       <input type="button" class="clear" value="C" @click="clear" />
       <input type="button" class="operator" value="/" @click="operation('/')" />
       <input type="button" value="1" @click="userInput('1')" />
@@ -41,6 +47,7 @@
       <h3>계산 기록</h3>
       <div class="history-list-wrap">
         <ul class="history-list">
+          
           <!-- html에 반복되는 부분을 v-for로 처리 -->
           <li v-for="(item, index) in history" :key="index" @click="selectHistory(item)">
             {{ item }}  <!-- 계산 기록은 10개까지 확인 가능 -->

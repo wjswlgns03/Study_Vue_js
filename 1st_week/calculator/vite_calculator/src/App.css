@@ -14,8 +14,8 @@ body {
 }
 
 .calculator {
-    width: 287px;
-    height: 557px;
+    width: 300px;
+    height: 627px;
     border: 1px solid #333;
     background-color: #ccc;
     padding: 5px;
@@ -23,7 +23,7 @@ body {
 
 .calculator form {
     display: grid;
-    grid-template-columns: repeat(4, 65px);
+    grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 65px;
     grid-gap: 5px;
 }
@@ -79,7 +79,7 @@ result-form {
     position: relative; /* 자식 요소 절대 위치 기준 */
     display: flex;
     flex-direction: column;
-    height: 527px; 
+    height: 597px; 
     padding: 10px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
