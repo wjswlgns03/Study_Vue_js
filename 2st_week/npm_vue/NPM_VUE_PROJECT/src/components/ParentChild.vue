@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>ParentChild 컴포넌트</h3>
+    <h3>ParentChild.vue에 존재하는 ParentChild 컴포넌트입니다.</h3>
   </div>
 </template>
 

@@ -144,7 +144,7 @@ export default {
   },
   data() {
     return {
-      message: 'Vue JS에서 인사드립니다!',
+      message: '안녕하세요, Vue.js 컴포넌트 상호작용 예시입니다',
       dynamicName: 'header',
       parentNum: 42
     };

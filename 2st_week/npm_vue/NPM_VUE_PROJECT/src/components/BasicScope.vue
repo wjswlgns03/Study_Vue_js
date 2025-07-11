@@ -7,7 +7,7 @@
 export default {
   data() {
     return {
-      message: 'Scoped Slot Message',
+      message: '슬롯 메시지 내용입니다.',
       count: 42
     };
   }

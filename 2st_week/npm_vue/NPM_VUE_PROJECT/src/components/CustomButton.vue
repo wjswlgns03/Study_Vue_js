@@ -18,7 +18,4 @@ export default {};
   border-radius: 4px;
   cursor: pointer;
 }
-.btn:hover {
-  background-color: #3aa876;
-}
 </style>
