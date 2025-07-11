@@ -116,8 +116,12 @@
   </div>
 </template>
 
+
+
+
+
 <script>
-// 코드 길이가 길어져 컴포넌트 분리
+import { ref, reactive, computed, watch, watchEffect, watchPostEffect } from 'vue';
 import FirstChild from './components/FirstChild.vue';
 import ParentChild from './components/ParentChild.vue';
 import CustomButton from './components/CustomButton.vue';
@@ -125,7 +129,6 @@ import DynamicLayout from './components/DynamicLayout.vue';
 import BasicScope from './components/BasicScope.vue';
 
 export default {
-  // 현재 컴포넌트에서 사용할 하위 컴포넌트들을 등록
   components: {
     FirstChild,
     ParentChild,
@@ -133,53 +136,156 @@ export default {
     DynamicLayout,
     BasicScope
   },
-  // provide 옵션을 사용하여 하위 컴포넌트(자식, 손자 등)에 데이터를 제공
+  // provide를 통해 하위 컴포넌트에 message 데이터 주입
   provide() {
     return {
-      message: this.message, // data에 정의된 message를 제공
+      message: this.message,
     };
   },
-  
-  // 컴포넌트의 반응형 데이터를 정의
   data() {
     return {
-      message: 'Vue JS에서 인사드립니다!', // 제공될 메시지
-      dynamicName: 'header', // 동적 슬롯의 이름으로 사용될 변수
-      parentNum: 42 // 부모 컴포넌트의 숫자 데이터
+      message: 'Vue JS에서 인사드립니다!',
+      dynamicName: 'header',
+      parentNum: 42
     };
   },
-  
-  // 계산된 속성(computed properties)을 정의 데이터가 변경될 때만 재계산
   computed: {
-    // parentNum이 짝수인지 홀수인지 판단하여 문자열을 반환
+    // parentNum이 짝수인지 홀수인지 계산
     numOddEven() {
       return this.parentNum % 2 === 0 ? '짝수' : '홀수';
     }
   },
-  
-  // 컴포넌트의 메서드를 정의
   methods: {
     // parentNum 값을 반환하는 메서드
     getParentNum() {
       return this.parentNum;
     }
   },
-  
-  // 컴포넌트가 마운트(DOM에 삽입)된 후에 실행되는 라이프사이클 훅
   mounted() {
-    // Refs 예시: 'childRef'라는 ref 속성을 가진 FirstChild 컴포넌트에 접근
+    // 컴포넌트 마운트 시 자식 컴포넌트의 refs를 통해 데이터 접근
     if (this.$refs.childRef) {
       console.log('--- Refs 예시 (콘솔 출력) ---');
-      // 자식 컴포넌트의 childNum 데이터에 접근하여 콘솔에 출력
       console.log('자식 숫자 (childNum):', this.$refs.childRef.childNum);
-      // 자식 컴포넌트의 childNumOddAdd 계산된 속성에 접근하여 콘솔에 출력
       console.log('자식 숫자 홀수 더하기 (childNumOddAdd):', this.$refs.childRef.childNumOddAdd);
-      // 자식 컴포넌트의 getChildNum 메서드를 호출하여 반환 값을 콘솔에 출력
       console.log('자식 숫자 가져오기 (getChildNum()):', this.$refs.childRef.getChildNum());
       console.log('----------------------------');
     }
+  },
+  setup() {
+    // ref를 사용해 단일 반응형 값 정의
+    const counter = ref(0);
+    // counter 값을 증가시키는 함수
+    const incrementCounter = () => {
+      counter.value++;
+    };
+
+    // reactive를 사용해 반응형 객체 정의
+    const userInfo = reactive({
+      name: 'John Doe',
+      age: 25
+    });
+    // userInfo.age를 증가시키는 함수
+    const updateUser = () => {
+      userInfo.age += 1;
+    };
+
+    // computed를 사용해 counter의 두 배 값을 계산
+    const doubleCounter = computed(() => counter.value * 2);
+
+    // watch를 사용해 counter 값 변화 감시
+    watch(counter, (newValue, oldValue) => {
+      console.log(`watch: counter가 ${oldValue}에서 ${newValue}로 변경됨`);
+    });
+
+    // watchEffect를 사용해 의존성(userInfo.age) 변경 시 즉시 실행
+    watchEffect(() => {
+      console.log(`watchEffect: userInfo.age가 ${userInfo.age}로 업데이트됨`);
+    });
+
+    // watchPostEffect를 사용해 DOM 업데이트 후 실행
+    watchPostEffect(() => {
+      console.log(`watchPostEffect: counter=${counter.value}, DOM 업데이트 완료`);
+    });
+
+    // 템플릿에서 사용할 반응형 데이터와 메서드 반환
+    return {
+      counter,
+      incrementCounter,
+      userInfo,
+      updateUser,
+      doubleCounter
+    };
   }
 };
 </script>
 
 
+<style scoped>
+/* 전체 컨테이너 스타일 */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* 섹션 제목 스타일 */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #34495e;
+  margin-top: 40px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+/* 예시 섹션 스타일 */
+.example-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* 컴포넌트 상호작용 영역 */
+.component-interaction-area {
+  padding: 15px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+/* 설명 노트 스타일 */
+.explanation-note {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 10px;
+}
+
+/* 버튼 스타일 (CustomButton 컴포넌트용) */
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* 동적/스코프드 슬롯 관련 콘텐츠 스타일 */
+h3 {
+  color: #e74c3c;
+  margin: 10px 0;
+}
+</style>
