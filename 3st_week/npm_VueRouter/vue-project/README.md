@@ -1,35 +1,47 @@
-# vue-project
+# Vue Router 학습 프로젝트
 
-This template should help get you started developing with Vue 3 in Vite.
+이 프로젝트는 Vue.js 애플리케이션에서 Vue Router를 활용하여 다양한 라우팅 기능을 구현하고 학습하기 위해 작성되었습니다.
 
-## Recommended IDE Setup
+## 1. 기능
+*   **다양한 경로 처리**:
+    *   **홈 (`/`)**: 기본 랜딩 페이지로, URL 해시(예: `#main`)와 쿼리 파라미터(예: `?userId=123`)를 컴포넌트 `props`로 전달받아 처리
+    *   **도서 목록 (`/books`, `/bk`)**: 모든 도서 목록을 표시하며, `/bk` 별칭을 통해 접근
+    *   **도서 상세 정보 (`/books/:id`, `/:id`)**: 특정 도서의 상세 정보를 표시 유효하지 않은 도서 ID로 접근 시 도서 목록 페이지로 리다이렉트
+    *   **사용자 프로필 (`/user/:id`)**: 특정 사용자의 정보를 표시 유효하지 않은 사용자 ID(숫자가 아니거나 0 이하)로 접근 시 404 페이지로 리다이렉트
+    *   **제품 정보 (`/product/:category/:itemId?`)**: 제품을 카테고리별로 표시하며, 선택적으로 특정 아이템(`itemId`)을 지정, 또한 `filter` 쿼리 파라미터(예: `?filter=popular`)를 처리
+    *   **About 페이지 (`/about`)**: 애플리케이션에 대한 간략한 정보를 제공
+*   **404 페이지 처리**: 정의되지 않은 모든 경로에 대해 `NotFound` 컴포넌트를 통해 404 오류 페이지를 표시
+*   **네비게이션 가드 (`beforeEach`)**:
+    *   사용자 ID 및 도서 ID의 유효성을 검사하여 잘못된 접근을 제어하고 적절한 페이지로 리다이렉트
+*   **스크롤 동작 제어 (`scrollBehavior`)**:
+    *   이전 스크롤 위치를 복원
+    *   URL 해시(예: `#section-id`)가 있을 경우 해당 요소로 부드럽게 스크롤
+    *   그 외의 경우, 500ms 지연 후 페이지 상단으로 부드럽게 스크롤
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 2. 주요 코드
+### 2.1. 라우터 인스턴스 및 경로 정의
+*   `createWebHistory()`: HTML5 History API를 사용하여 깔끔한 URL을 구현
+*   `routes`: 애플리케이션의 모든 경로를 정의하는 배열
+*   `alias`: 특정 경로에 대한 별칭을 설정하여 여러 URL로 같은 컴포넌트에 접근
+*   `props: true`: 라우트 파라미터를 컴포넌트의 `props`로 직접 전달하여 컴포넌트 내에서 `$route.params`에 접근할 필요 없이 데이터를 사용
+*   `props: (route) => ({ ... })`: 함수 형태로 `props`를 정의하여 `route` 객체로부터 동적으로 파라미터, 쿼리, 해시 등을 추출하여 컴포넌트에 전달 이는 복잡한 데이터를 `props`로 전달할 때 유용
+*   `itemId?`: `?`를 붙여 해당 파라미터가 선택적임을 나타냄
+*   `pathMatch(.*)*`: Vue Router 4에서 모든 정의되지 않은 경로를 잡기 위한 정규식 패턴 이를 통해 404 페이지를 구현
 
-## Customize configuration
+### 2.2. 네비게이션 가드 (`router.beforeEach`)
+*   `router.beforeEach`: 전역 네비게이션 가드로, 모든 라우트 이동 전에 실행
+*   `to`: 이동하려는 대상 라우트 객체
+*   `from`: 현재 라우트 객체
+*   `next()`: 라우트 이동을 허용하거나 다른 라우트로 리다이렉트하는 함수
+    *   `next()`: 다음 훅으로 이동하거나 라우트 이동을 완료
+    *   `next({ name: '...' })`: 지정된 이름의 라우트로 리다이렉트
+*   `isValidUserId`: 사용자 정의 함수로, `user` 라우트의 `id` 파라미터가 유효한 숫자인지 검사
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 2.3. 스크롤 동작 (`scrollBehavior`)
+*   `scrollBehavior`: 페이지 이동 시 스크롤 동작을 커스터마이징하는 함수
+*   `savedPosition`: 브라우저의 뒤로 가기/앞으로 가기 버튼을 눌렀을 때 저장된 스크롤 위치
+*   `to.hash`: 이동하려는 URL에 해시(`/#section`)가 포함되어 있을 경우, 해당 ID를 가진 요소로 스크롤
+*   `setTimeout`: 특정 시간(여기서는 500ms) 지연 후 스크롤을 수행하여 부드러운 전환 효과를 제공
 
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+## 3. 라우터 학습 회고 (Router Learning Reflection)
+애플리케이션의 흐름을 제어하고 사용자 경험을 최적화하는데 괜찮은 도구임을 확인할 수 있었습니다. 
