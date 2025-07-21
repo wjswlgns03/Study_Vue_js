@@ -2,16 +2,18 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { computed, ref } from 'vue';
 import dayjs from 'dayjs'; // dayjs 라이브러리 불러오기
-// Axios를 사용해 HTTP 요청을 보내기 위한 Axios 인스턴스 생성
+
+// Visual Crossing Weather API를 기본값으로 하는 Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL:
-    'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/seoul?key=Z2FVDN5SUYZFV8SVCRQZ5ZE8A&unitGroup=metric&lang=ko',
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/seoul?key=${import.meta.env.VITE_WEATHER_API_API_KEY}&unitGroup=metric&lang=ko`,
   params: {
     lang: 'ko',
-    key: 'Z2FVDN5SUYZFV8SVCRQZ5ZE8A',
+    key: import.meta.env.VITE_WEATHER_API_API_KEY,
     unitGroup: 'metric',
   },
 });
+
 // ipify API를 기본값으로 하는 Axios 인스턴스 생성
 const axiosInstance2 = axios.create({
   baseURL: 'https://api64.ipify.org/?format=json',
