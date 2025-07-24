@@ -11,6 +11,12 @@
   --app-header: 3.4375rem;
   --app-footer: 4.28125rem;
   --app-title: 1.5rem;
+  --text-color: #f8f9fa; /* 기본 텍스트 색상 */
+  --secondary-text-color: rgba(255, 255, 255, 0.68); /* 보조 텍스트 색상 */
+  --highlight-text-color: #9bc3ff; /* 강조 텍스트 색상 */
+  --muted-text-color: #bababa; /* 흐린 텍스트 색상 */
+  --search-bg-color: #233a5a; /* 검색 바 배경 색상 */
+  --city-bg-color: #233a5a; /* 도시 배경 색상 */
 }
 
 ::-webkit-scrollbar {
@@ -18,9 +24,43 @@
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #1d2837;
+  color: var(--text-color);
   height: calc(var(--vh, 1vh) * 100);
+}
+
+/* 아침 배경 (일출 ~ 정오) */
+body.morning-bg {
+  background: linear-gradient(135deg, #87CEEB 0%, #6495ED 100%);
+  --text-color: #333333;
+  --secondary-text-color: #4a4a4a;
+  --highlight-text-color: #2a5db0;
+  --muted-text-color: #666666;
+  --search-bg-color: #d3e6f3;
+  --city-bg-color: #d3e6f3;
+}
+
+/* 점심 배경 (정오 ~ 일몰) */
+body.afternoon-bg {
+  background: linear-gradient(135deg, #87CEFA 0%, #FFE066 100%);
+  --text-color: #333333;
+  --secondary-text-color: #4a4a4a;
+  --highlight-text-color: #b8860b;
+  --muted-text-color: #666666;
+  --search-bg-color: #f0e6b2;
+  --city-bg-color: #f0e6b2;
+}
+
+/* 저녁/밤 배경 (일몰 ~ 일출) */
+body.evening-bg {
+  background: linear-gradient(135deg, #2c3e50 0%, #0a0a0a 100%);
+  --text-color: #f9f9f9;
+  --secondary-text-color: rgba(255, 255, 255, 0.68);
+  --highlight-text-color: #9bc3ff;
+  --muted-text-color: #bababa;
+  --search-bg-color: #233a5a;
+  --city-bg-color: #233a5a;
 }
 
 .header {
@@ -33,7 +73,7 @@ body {
 
 .header__title {
   font-size: 1.5rem;
-  color: white;
+  color: var(--text-color);
 }
 
 .header__title span {
@@ -42,17 +82,13 @@ body {
 
 .header__city {
   font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--secondary-text-color);
 }
 
 .header__date {
   font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--secondary-text-color);
 }
-
-/**=======================
-홈 화면 
-=========================*/
 
 .main {
   height: calc(var(--vh, 1vh) * 100 - var(--app-header) - var(--app-footer));
@@ -65,14 +101,14 @@ body {
   justify-content: center;
   height: 100%;
   padding: 2rem 2rem;
-  color: white;
+  color: var(--text-color);
   text-align: center;
 }
 
 .weather-city,
 .forecast {
   padding: 2rem 2rem;
-  color: white;
+  color: var(--text-color);
 }
 
 .weather__img {
@@ -87,7 +123,7 @@ body {
 
 .weather_summary {
   font-size: 1.125rem;
-  color: #eaeaea;
+  color: var(--muted-text-color);
   margin-bottom: 3rem;
 }
 
@@ -102,7 +138,7 @@ body {
 
 .weather__subtitle {
   font-size: 1.25rem;
-  color: #9bc3ff;
+  color: var(--highlight-text-color);
   margin-bottom: 0.625rem;
 }
 
@@ -145,9 +181,6 @@ body {
   width: 3rem;
 }
 
-/**
- Footer
- **/
 .footer {
   position: fixed;
   bottom: 0;
@@ -159,16 +192,12 @@ body {
 .footer__list {
   display: flex;
   justify-content: space-around;
-  color: white;
+  color: var(--text-color);
 }
 
 .footer_icons {
   font-size: 2rem;
 }
-
-/**=======================
-검색 화면
-=========================*/
 
 .weather__search {
   margin-bottom: 1.5rem;
@@ -176,12 +205,13 @@ body {
 
 .weather__searchBar {
   width: 100%;
-  background-color: #233a5a;
-  border: 1px solid #233a5a;
+  background-color: var(--search-bg-color);
+  border: 1px solid var(--search-bg-color);
   padding: 1rem;
   outline: none;
   border-radius: 5px;
-  color: white;
+  color: var(--text-color);
+  font-weight: bold;
 }
 
 .weather-city,
@@ -193,7 +223,7 @@ body {
 .weather__city {
   display: flex;
   align-items: center;
-  background-color: #233a5a;
+  background-color: var(--city-bg-color);
   border-radius: 10px;
   margin-bottom: 1.5rem;
   padding: 1rem 1.5rem;
@@ -230,12 +260,9 @@ body {
 
 .weather__cityTmpMore {
   font-size: 0.875rem;
-  color: #bababa;
+  color: var(--muted-text-color);
 }
 
-/**=======================
-예보 화면
-=========================*/
 .forecast {
   margin-bottom: 2rem;
 }
@@ -249,7 +276,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: 1px solid #bababa;
+  border-bottom: 1px solid var(--muted-text-color);
   padding: 0.625rem 0;
 }
 
@@ -263,7 +290,7 @@ body {
 }
 
 .forecast__date {
-  color: #bababa;
+  color: var(--muted-text-color);
 }
 
 .forecast__weekListImg {
@@ -287,7 +314,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 1.25rem;
-  color: #bababa;
+  color: var(--muted-text-color);
   height: 100%;
 }
 

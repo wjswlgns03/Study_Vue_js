@@ -62,7 +62,7 @@
     </section>
     <!-- 검색 데이터가 없으면 -->
     <section v-if="searchData.length === 0" class="no-data">
-      <p>검색한 지역이 없습니다.</p>
+      <strong><p>검색한 지역이 없습니다.</p></strong>
     </section>
   </main>
 </template>
